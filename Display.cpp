@@ -18,6 +18,14 @@ void Display::init() {
   lcd.clear();
 }
 
+void Display::setForceOn(bool a) {
+  // ask for a refresh everytime that we force on
+  if (forceOnActive != a) {
+    needsUpdate = true;
+  }
+  forceOnActive = a;
+}
+
 void Display::drawPump(const char *name, enum State st, Timer& t) {
   lcd.print(name);
   lcd.print(st == State::ENABLED ? " ON" : " OFF");
@@ -52,13 +60,24 @@ void Display::updateScreen() {
   static uint8_t rollerState = 0;
 
   if (needsUpdate) {
-    lcd.clear();
+     lcd.clear();
 
      // First draw temp
      lcd.setCursor(0, TEMP_LINE);
      lcd.print("Temp is: ");
      lcd.print(temp.getValue());
      lcd.print(" C");
+
+     // if forced active, do not show timers
+     if(forceOnActive) {
+      lcd.setCursor(0, 2);
+      lcd.print("Force On Mode Active");
+      lcd.setCursor(0, 3);
+      lcd.print("Press btn to disable");
+      return;
+     }
+
+     needsUpdate = false;
   }
 
   // Draw water pump state

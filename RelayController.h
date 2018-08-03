@@ -4,6 +4,7 @@
 #include "WProgram.h"
 #endif
 #include "Timer.h"
+#include "ChangeStateButton.h"
 
 #pragma once
 
@@ -31,11 +32,12 @@ enum RelayPin {
 typedef struct Relay {
   StateDescription& relayState;
   enum RelayPin pin;
+  bool forceOnMode;
 } Relay;
 
 class RelayController {
   public:
-  RelayController(int n, Relay* rs) {
+  RelayController(int n, Relay* rs) : relays(rs), numOfRelays(n) {
     pinMode(RelayPin::Heater, OUTPUT);
     pinMode(RelayPin::WaterPump, OUTPUT);
     pinMode(RelayPin::AirPump, OUTPUT);
@@ -45,15 +47,16 @@ class RelayController {
     digitalWrite(RelayPin::WaterPump, HIGH);
     digitalWrite(RelayPin::AirPump, HIGH);
     digitalWrite(RelayPin::Other, HIGH);
-
-    numOfRelays = n;
-    relays = rs;
     
   }
   void update();
+  void setForceOn(bool);
 
   private:
-  struct Relay* relays;
-  int numOfRelays;
+  void normalUpdate();
+  void forceOnUpdate();
+  const struct Relay* relays;
+  const uint8_t numOfRelays;
+  bool forceOnActive;
 };
 

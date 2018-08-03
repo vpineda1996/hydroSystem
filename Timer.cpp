@@ -65,6 +65,7 @@ void ABTimer::tick() {
       sec = onTime.sec;
       state = ENABLED;
     }
+    reduceSecond();
   }
 }
 

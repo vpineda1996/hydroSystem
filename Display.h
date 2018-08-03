@@ -1,8 +1,8 @@
-
-#include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include "Timer.h"
 #include "State.h"
+#include "ChangeStateButton.h"
+
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
 #else
@@ -23,6 +23,7 @@ class Display {
 
   void updateScreen();
   void init();
+  void setForceOn(bool);
 
   private:
   SensorBasedState& temp;
@@ -31,6 +32,7 @@ class Display {
   ABTimer& airPumpTime;
   
   bool needsUpdate;
+  bool forceOnActive;
   void drawPump(const char*, enum State, Timer&);
 };
 
