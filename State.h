@@ -26,10 +26,13 @@ class Sensor {
 
 class SensorBasedState : public StateDescription, public Sensor  {
   public:
-  SensorBasedState(float t): threshold(t), StateDescription(), Sensor() {};
-  SensorBasedState(float t, enum State s): threshold(t), StateDescription(s), Sensor() {};
+  SensorBasedState(float t): threshold(t), changed(false), StateDescription(), Sensor() {};
+  SensorBasedState(float t, enum State s): threshold(t), changed(false), StateDescription(s), Sensor() {};
   void setValue(float);
+  bool hasChanged();
+  
   private: 
+  bool changed;
   float threshold;
 };
 

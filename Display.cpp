@@ -59,7 +59,7 @@ char getRolling(uint8_t state) {
 void Display::updateScreen() {
   static uint8_t rollerState = 0;
 
-  if (needsUpdate) {
+  if (needsUpdate || temp.hasChanged()) {
      lcd.clear();
 
      // First draw temp
@@ -69,7 +69,7 @@ void Display::updateScreen() {
      lcd.print(" C");
 
      // if forced active, do not show timers
-     if(forceOnActive) {
+     if (forceOnActive) {
       lcd.setCursor(0, 2);
       lcd.print("Force On Mode Active");
       lcd.setCursor(0, 3);

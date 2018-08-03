@@ -57,7 +57,7 @@ void setup()
 }
 
 #define TEMP_CYCLE (1 << 7)
-#define BTN_CYCLE_READ (1 << 6)
+#define BTN_CYCLE_READ (1 << 3)
 #define TIME_CYCLE ( 1 << 2 )
 #define CYCLE(c,t) !(c % t)
 
@@ -91,16 +91,16 @@ void halfSecond() {
 void timeUpdater() {
   static unsigned long timer = millis(), secondsOffset = 0, halfOffset = 0;
   unsigned long currentTime = millis();
-  #define INTERVAL(interval) (currentTime - timer) - secondsOffset >= interval
+  #define INTERVAL(interval, offset) (currentTime - timer) - offset >= interval
 
   // second
-  if (INTERVAL(MILLIS_IN_SEC)) {
+  if (INTERVAL(MILLIS_IN_SEC, secondsOffset)) {
      onSecond();
      secondsOffset += MILLIS_IN_SEC;
   }
   
   // half-second
-  if (INTERVAL(HALF_SEC_MILLIS)) {
+  if (INTERVAL(HALF_SEC_MILLIS, halfOffset)) {
      halfSecond();
      halfOffset += HALF_SEC_MILLIS;
   }
