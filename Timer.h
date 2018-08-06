@@ -6,7 +6,7 @@
 #include "State.h"
 #pragma once
 
-#define NUM_GLOBAL_CLOCK 10
+#define NUM_GLOBAL_CLOCK 5
 
 class Timer {
   public:
@@ -32,7 +32,7 @@ class GlobalClock {
   void tick();
 
   private:
-  int n;
+  uint8_t n;
   Timer* timers[NUM_GLOBAL_CLOCK];
 };
 

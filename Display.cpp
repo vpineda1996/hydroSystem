@@ -28,29 +28,30 @@ void Display::setForceOn(bool a) {
 
 void Display::drawPump(const char *name, enum State st, Timer& t) {
   lcd.print(name);
-  lcd.print(st == State::ENABLED ? " ON" : " OFF");
-  lcd.print(" : ");
-  lcd.print(st == State::ENABLED ? " " : "");
+  lcd.print(st == State::ENABLED ? F(" ON") : F(" OFF"));
+  lcd.print(F(" : "));
+  lcd.print(st == State::ENABLED ? F(" ") : F(""));
   if (t.hr != 0) {
     lcd.print(t.hr);
-    lcd.print("h");
+    lcd.print(F("h"));
   } else {
-    lcd.print("  ");
+    lcd.print(F("  "));
   }
   if (t.min != 0 || t.hr != 0) {
-    if (t.min < 10) lcd.print(" ");
+    if (t.min < 10) lcd.print(F(" "));
     lcd.print(t.min);
-    lcd.print("m");
+    lcd.print(F("m"));
   } else {
-    lcd.print("   ");
+    lcd.print(F("   "));
   }
   
-  if (t.sec < 10) lcd.print(" ");
+  if (t.sec < 10) lcd.print(F(" "));
   lcd.print(t.sec);
-  lcd.print("s");
+  lcd.print(F("s"));
 }
 
 char states[] = {'|', '-'};
+const char * PUMP_NAMES[] = { "Wtr", "Air"};
 
 char getRolling(uint8_t state) {
   return states[state % (sizeof(states)/ sizeof(states[0]))];
@@ -64,16 +65,16 @@ void Display::updateScreen() {
 
      // First draw temp
      lcd.setCursor(0, TEMP_LINE);
-     lcd.print("Temp is: ");
+     lcd.print(F("Temp is: "));
      lcd.print(temp.getValue());
-     lcd.print(" C");
+     lcd.print(F(" C"));
 
      // if forced active, do not show timers
      if (forceOnActive) {
       lcd.setCursor(0, 2);
-      lcd.print("Force On Mode Active");
+      lcd.print(F("Force On Mode Active"));
       lcd.setCursor(0, 3);
-      lcd.print("Press btn to disable");
+      lcd.print(F("Press btn to disable"));
       return;
      }
 
@@ -82,21 +83,25 @@ void Display::updateScreen() {
 
   // Draw water pump state
   lcd.setCursor(ROLLER_SPACING, WATER_PUMP_LINE); // Leave ROLLER_SPACING spaces to make the rotating effect work
-  drawPump("Wtr", waterPumpTime.state, waterPumpTime);
+  drawPump(PUMP_NAMES[0], waterPumpTime.state, waterPumpTime);
   
   // Draw air pump state
   lcd.setCursor(ROLLER_SPACING, AIR_PUMP_LINE); // Leave ROLLER_SPACING spaces to make the rotating effect work
-  drawPump("Air", airPumpTime.state, airPumpTime);
+  drawPump(PUMP_NAMES[1], airPumpTime.state, airPumpTime);
   
   // Then draw interactive liny
   if (waterPumpTime.state == State::ENABLED) {
     lcd.setCursor(0, WATER_PUMP_LINE);
     lcd.print(getRolling(rollerState));
+  } else {
+    lcd.print(F(" "));
   }
 
   if (airPumpTime.state == State::ENABLED) {
     lcd.setCursor(0,AIR_PUMP_LINE);
     lcd.print(getRolling(rollerState));
+  } else {
+    lcd.print(F(" "));
   }
 
   rollerState++; // increment the roller state so that we get a new one when we refresh!

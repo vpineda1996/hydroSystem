@@ -64,18 +64,6 @@ void setup()
 #define MILLIS_IN_SEC 1000
 #define HALF_SEC_MILLIS (MILLIS_IN_SEC / 2)
 
-//void wait(int offset) {
-//  static int extra = 0;
-//  if (offset >= MILLIS_IN_SEC) {
-//    extra += offset - MILLIS_IN_SEC;
-//  } else if ((offset + extra) >=  MILLIS_IN_SEC) {
-//    extra -= MILLIS_IN_SEC - offset; 
-//  } else {
-//    delay(MILLIS_IN_SEC - (offset + extra) ); 
-//    extra = 0;
-//  }
-//}
-
 void onSecond() {
   // make world tick
   globalClock.tick();
@@ -97,6 +85,7 @@ void timeUpdater() {
   if (INTERVAL(MILLIS_IN_SEC, secondsOffset)) {
      onSecond();
      secondsOffset += MILLIS_IN_SEC;
+     
   }
   
   // half-second
