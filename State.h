@@ -26,13 +26,17 @@ class Sensor {
 
 class SensorBasedState : public StateDescription, public Sensor  {
   public:
-  SensorBasedState(float t): threshold(t), changed(false), StateDescription(), Sensor() {};
-  SensorBasedState(float t, enum State s): threshold(t), changed(false), StateDescription(s), Sensor() {};
+  SensorBasedState(float t): SensorBasedState(t, State::DISABLED) {};
+  SensorBasedState(float t, enum State s): SensorBasedState(t, 0, -1, s) {};
+  SensorBasedState(float th, float tol, float mi): SensorBasedState(th, tol, mi, State::DISABLED) {};
+  SensorBasedState(float th, float tol, float mi, enum State s): threshold(th), tolerance(tol), minimum(mi), changed(false), StateDescription(s), Sensor() {};
   void setValue(float);
   bool hasChanged();
   
   private: 
   bool changed;
+  float tolerance;
+  float minimum;
   float threshold;
 };
 

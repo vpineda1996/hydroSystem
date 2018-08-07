@@ -40,7 +40,7 @@ ABTimer airT (onAir, offAir);
 
 GlobalClock globalClock;
 
-SensorBasedState sbs(19.0);
+SensorBasedState sbs(19.0, 1.0, -100.0);
 ChangeStateButton forceOnBtn(FORCE_ON_BUTTON);
 
 Display d(waterT, airT, sbs);

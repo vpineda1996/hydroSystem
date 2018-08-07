@@ -9,7 +9,7 @@
 #pragma once
 
 #ifndef HEATER_PIN
-#define HEATER_PIN 8
+#define HEATER_PIN 10
 #endif
 
 #ifndef WATER_PUMP_PIN
@@ -21,7 +21,7 @@
 #endif
 
 #ifndef OTHER_PIN
-#define OTHER_PIN 10
+#define OTHER_PIN 8
 #endif
 
 

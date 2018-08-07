@@ -7,15 +7,16 @@ void Sensor::setValue(float v) {
 
 void SensorBasedState::setValue(float v) {
   Sensor::setValue(v);
-  enum State newState = state;
-  if (value <= threshold) {
-    newState = ENABLED;
-  } else {
-    newState = DISABLED;
+  if (value > minimum) {
+     if (value <= threshold) {
+      state = ENABLED;
+    } else if (state == ENABLED && (threshold - value) <= tolerance) {
+      state = ENABLED;
+    } else {
+      state = DISABLED;
+    } 
   }
-
-  changed = newState != state;
-  state = newState;
+  changed = true;
 }
 
 /**
