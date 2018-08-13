@@ -24,6 +24,7 @@ class Display {
   void updateScreen();
   void init();
   void setForceOn(bool);
+  void resetScreen();
 
   private:
   SensorBasedState& temp;

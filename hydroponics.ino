@@ -63,6 +63,7 @@ void setup()
 
 #define MILLIS_IN_SEC 1000
 #define HALF_SEC_MILLIS (MILLIS_IN_SEC / 2)
+#define MILLIS_IN_HALF_HOUR 1800000
 
 void onSecond() {
   // make world tick
@@ -76,8 +77,13 @@ void halfSecond() {
   d.updateScreen();
 }
 
+void onHalfHour() {
+  // Every half hour reset the connection so we are cool
+  d.init();
+}
+
 void timeUpdater() {
-  static unsigned long timer = millis(), secondsOffset = 0, halfOffset = 0;
+  static unsigned long timer = millis(), secondsOffset = 0, halfOffset = 0, halfOurOffset = 0;
   unsigned long currentTime = millis();
   #define INTERVAL(interval, offset) (currentTime - timer) - offset >= interval
 
@@ -85,7 +91,12 @@ void timeUpdater() {
   if (INTERVAL(MILLIS_IN_SEC, secondsOffset)) {
      onSecond();
      secondsOffset += MILLIS_IN_SEC;
-     
+  }
+  
+  // Every half hour re-sync our LCD screen
+  if (INTERVAL(MILLIS_IN_HALF_HOUR, halfOurOffset)) {
+     onHalfHour();
+     halfOurOffset += MILLIS_IN_HALF_HOUR;
   }
   
   // half-second

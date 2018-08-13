@@ -6,17 +6,17 @@ void Sensor::setValue(float v) {
 
 
 void SensorBasedState::setValue(float v) {
-  Sensor::setValue(v);
-  if (value > minimum) {
-     if (value <= threshold) {
+  if (v > minimum) {
+    Sensor::setValue(v);
+    if (value <= threshold) {
       state = ENABLED;
-    } else if (state == ENABLED && (threshold - value) <= tolerance) {
+    } else if (state == ENABLED && (value - threshold) <= tolerance) {
       state = ENABLED;
     } else {
       state = DISABLED;
     } 
+    changed = true;
   }
-  changed = true;
 }
 
 /**

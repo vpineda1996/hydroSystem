@@ -35,8 +35,8 @@ class SensorBasedState : public StateDescription, public Sensor  {
   
   private: 
   bool changed;
-  float tolerance;
-  float minimum;
-  float threshold;
+  const float tolerance;
+  const float minimum;
+  const float threshold;
 };
 

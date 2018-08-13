@@ -13,9 +13,10 @@ Display::Display(ABTimer& wpt, ABTimer& apt, SensorBasedState& sbs) : lcd(LCD_I2
   needsUpdate(true) {}
 
 void Display::init() {
-  lcd.begin(20,4);   // initialize the lcd for 16 chars 2 lines, turn on backlight
+  lcd.begin(20,4);   // initialize the lcd for 20 chars 4 lines, turn on backlight
   lcd.backlight(); // finish with backlight on  
   lcd.clear();
+  needsUpdate = true;
 }
 
 void Display::setForceOn(bool a) {
